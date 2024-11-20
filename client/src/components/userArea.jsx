@@ -20,7 +20,6 @@ export default function UserArea(props) {
           throw Error("ERROR!");
         }
         const data = await res.json();
-        console.log("data: ", data);
         setFolderContent(data);
       } catch (err) {
         console.log("err: ", err);
@@ -31,13 +30,11 @@ export default function UserArea(props) {
 
   const addFile = async () => {
     if (newFile) {
-      console.log("newFile: ", newFile);
       await fetch(`http://localhost:3000/users/${username}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ filename: newFile }),
       }).then((res) => {
-        console.log("res: ", res);
         if (!res.ok) {
           throw new Error("somthing went wrong");
         } else {
@@ -57,7 +54,7 @@ export default function UserArea(props) {
             <button onClick={addFile}>+</button>
           </div>
           {folderContent.map((item) => (
-            <File key={item} name={item} />
+            <File key={item} name={item} setFolderContent={setFolderContent} />
           ))}
         </>
       );

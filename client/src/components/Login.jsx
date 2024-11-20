@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function Login(props) {
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
+  console.log("in Login");
 
   const handleChange = (e) => {
     setInputs((prev) => {

@@ -12,6 +12,9 @@ const options = {
 router.get("/users/:name/display", function (req, res, next) {
   const name = req.params.name;
   fs.readdir(`${pathFolder}/${name}`, (err, files) => {
+    if (err) {
+      res.status(500).send(JSON.stringify(err));
+    }
     files.forEach((file) => {
       console.log(file);
     });
@@ -21,20 +24,26 @@ router.get("/users/:name/display", function (req, res, next) {
 
 //create file
 
-router.post("/users/:name", function (req, res, next) {
-  const name = req.params.name;
-  console.log("req.params.name: ", req.params.name);
-  const filename = req.body.filename;
-  console.log("req.body.filename: ", req.body.filename);
+router.post("/users/:name", function (req, res) {
+  try {
+    const name = req.params.name;
+    const filename = req.body.filename;
+    const folderPath = `${pathFolder}/${name}`;
 
-  const filepath = fs.writeFile(
-    `${pathFolder}/${name}/${filename}`,
-    "",
-    function (err) {
-      if (err) throw res.status(404).send(JSON.stringify(err));
-      console.log("added!");
+    const files = fs.readdirSync(folderPath);
+
+    if (files.includes(filename)) {
+      return res.status(404).send("there is another file with this name...");
     }
-  );
+
+    const filePath = `${folderPath}/${filename}`;
+    fs.writeFileSync(filePath, "");
+
+    res.status(200).send("File added successfully!");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("An error occurred");
+  }
 });
 
 //delete file
@@ -89,12 +98,17 @@ router.patch("/users/:name", function (req, res, next) {
 });
 
 //more info about file
-router.get("/users/:name/info", function (req, res, next) {
-  const file = req.body.file;
+router.get("/users/:name/:file/info", function (req, res, next) {
+  const file = req.params.file;
+  console.log("file: ", file);
   const name = req.params.name;
+  console.log(
+    "`${pathFolder}/${name}/${file}`: ",
+    `${pathFolder}/${name}/${file}`
+  );
   fs.stat(`${pathFolder}/${name}/${file}`, (err, stats) => {
     if (err) {
-      console.error(err);
+      console.error("Err in get info ", err);
     }
     console.log("stats: ", stats);
     res.status(200).send(JSON.stringify(stats));
