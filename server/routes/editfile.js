@@ -8,6 +8,17 @@ const options = {
   root: path.join(),
 };
 
+//display files
+router.get("/users/:name/display", function (req, res, next) {
+  const name = req.params.name;
+  fs.readdir(`${pathFolder}/${name}`, (err, files) => {
+    files.forEach((file) => {
+      console.log(file);
+    });
+    res.status(200).send(JSON.stringify(files));
+  });
+});
+
 //create file
 
 router.post("/users/:name", function (req, res, next) {
@@ -40,9 +51,9 @@ router.delete("/users/:name", function (req, res, next) {
 });
 
 //show content
-router.get("/users/:name", function (req, res, next) {
+router.get("/users/:name/:file", function (req, res, next) {
   const name = req.params.name;
-  const file = req.body.file;
+  const file = req.params.file;
   fs.readFile(`${pathFolder}/${name}/${file}`, "utf8", (err, data) => {
     if (err) {
       console.error(err);
@@ -67,6 +78,19 @@ router.patch("/users/:name", function (req, res, next) {
       console.log("renamed!");
     }
   );
+});
+
+//more info about file
+router.get("/users/:name/info", function (req, res, next) {
+  const file = req.body.file;
+  const name = req.params.name;
+  fs.stat(`${pathFolder}/${name}/${file}`, (err, stats) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log("stats: ", stats);
+    res.status(200).send(JSON.stringify(stats));
+  });
 });
 
 module.exports = router;
