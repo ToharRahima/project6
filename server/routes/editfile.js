@@ -69,15 +69,23 @@ router.patch("/users/:name", function (req, res, next) {
   const name = req.params.name;
   const oldname = req.body.oldname;
   const newname = req.body.newname;
-
-  fs.rename(
-    `${pathFolder}/${name}/${oldname}`,
-    `${pathFolder}/${name}/${newname}`,
-    function (err) {
-      if (err) console.log("ERROR: " + err);
-      console.log("renamed!");
+  fs.readdir(`${pathFolder}/${name}`, (err, files) => {
+    const samefile = files.filter((file) => (file = newname));
+    if (samefile.length !== 0) {
+      res
+        .status(404)
+        .send(JSON.stringify("there is another file with this name..."));
+    } else {
+      fs.rename(
+        `${pathFolder}/${name}/${oldname}`,
+        `${pathFolder}/${name}/${newname}`,
+        function (err) {
+          if (err) console.log("ERROR: " + err);
+          console.log("renamed!");
+        }
+      );
     }
-  );
+  });
 });
 
 //more info about file
