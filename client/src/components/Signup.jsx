@@ -1,5 +1,6 @@
 import React from "react";
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function Signup() {
   
   const [inputs, setInputs] = useState({});
@@ -13,7 +14,7 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/signup", {
+    fetch("http://localhost:3000/users/signup", {
       method: 'POST', headers: { "content-type": "application/json" }
       , body: JSON.stringify(inputs)
     })
