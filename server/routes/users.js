@@ -18,10 +18,10 @@ router.post("/login", function (req, res, next) {
   );
   if (rightuser.length === 0) {
     console.log("rightuser ", rightuser);
-    res.status(404).send("user is not found!");
-  } else {
-    res.status(200).send(JSON.stringify(rightuser.username));
+    res.status(400).send("user is not found!");
+  } else {    
     console.log("rightuser: ", rightuser);
+    res.status(200).send(JSON.stringify(rightuser[0].username));
   }
 });
 
