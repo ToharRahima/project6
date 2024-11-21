@@ -57,7 +57,7 @@ export default function UserArea(props) {
             <button onClick={addFile}>+</button>
           </div>
           {folderContent.map((item) => (
-            <File key={item} name={item} />
+            <File key={item} name={item} setFolderContent={setFolderContent}  />
           ))}
         </>
       );

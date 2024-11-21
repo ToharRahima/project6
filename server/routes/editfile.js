@@ -45,8 +45,8 @@ router.delete("/users/:name", function (req, res, next) {
   const filename = req.body.filename;
   console.log("filename: ", filename);
   fs.unlink(`${pathFolder}/${name}/${filename}`, function (err) {
-    if (err) res.status(404).send(JSON.stringify(err));
-    console.log("deleted");
+    if (err) res.status(404).send(JSON.stringify(err)).end();
+    res.status(200).send(JSON.stringify(filename)).end();
   });
 });
 
