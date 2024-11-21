@@ -44,6 +44,27 @@ export default function UserArea(props) {
     }
   };
 
+  const rename = async (name, newname, setEdit) => {
+    const res = await fetch(`http://localhost:3000/users/${username}/${name}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ newname: newname }),
+    });
+    if (!res.ok) {
+      console.log(res);
+    } else {
+      const newFiles = folderContent.map((file) =>
+        file === name ? newname : file
+      );
+
+      console.log("newFiles: ", newFiles);
+      setFolderContent(newFiles);
+
+      console.log("folderContent: ", folderContent);
+      setEdit(false);
+    }
+  };
+
   {
     if (username) {
       return (
@@ -54,7 +75,13 @@ export default function UserArea(props) {
             <button onClick={addFile}>+</button>
           </div>
           {folderContent.map((item) => (
-            <File key={item} name={item} setFolderContent={setFolderContent}  />
+            <File
+              key={item}
+              name={item}
+              rename={rename}
+              setFolderContent={setFolderContent}
+              folderContent={folderContent}
+            />
           ))}
         </>
       );

@@ -1,6 +1,1 @@
-[
-  { "username": "rotem", "password": "123456" },
-  { "username": "tohar", "password": "987654" },
-  { "username": "naama", "password": "110204" },
-  { "username": "yakira", "password": "123456" }
-]
+[{"username":"rotem","password":"123456"},{"username":"tohar","password":"987654"},{"username":"naama","password":"110204"},{"username":"yakira","password":"123456"},{"username":"tamar","password":"1234567"}]
