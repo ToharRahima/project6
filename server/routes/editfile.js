@@ -141,4 +141,30 @@ router.post("/addfolder/:name", function (req, res) {
   }
 });
 
+//delete folder
+router.delete("/folder/:name", function (req, res, next) {
+  const name = req.params.name;
+  const foldername = req.body.foldername;
+  fs.readdir(`${pathFolder}/${name}/${foldername}`, (err, files) => {
+    if (err) {
+      console.error("Error reading folder:", err);
+      return res.status(500).send("Failed to check folder content.");
+    }
+
+    if (files.length > 0) {
+      return res
+        .status(400)
+        .send("Folder is not empty. Cannot delete non-empty folder.");
+    }
+    fs.rmdir(`${pathFolder}/${name}/${foldername}`, (err) => {
+      if (err) {
+        console.error("Error deleting folder:", err);
+        return res.status(500).send("Failed to delete the folder.");
+      }
+      console.log("Folder deleted successfully!");
+      res.status(200).send("Folder deleted successfully!");
+    });
+  });
+});
+
 module.exports = router;

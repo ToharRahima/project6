@@ -32,6 +32,25 @@ export default function File(props) {
         )
       );
   }
+  function deleteFolder() {
+    fetch(`http://localhost:8080/folder/${username}`, {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ foldername: props.name }),
+    })
+      .then((res) => {
+        console.log(res);
+        if (!res.ok) {
+          throw new Error("couldnt delete");
+        }
+        return res.json();
+      })
+      .then(
+        props.setFolderContent((prev) =>
+          prev.filter((file) => file !== props.name)
+        )
+      );
+  }
 
   useEffect(() => {
     const getInfo = async () => {
@@ -62,7 +81,7 @@ export default function File(props) {
   }
   return (
     <>
-      <div className="container">
+      <div className={info.type === "file" ? "file" : "folder"}>
         {edit ? (
           <input
             value={newname || props.name}
@@ -72,9 +91,19 @@ export default function File(props) {
         ) : (
           <h2>{props.name}</h2>
         )}
-        {info.type === "file" && (
+        {info.type === "file" ? (
           <button onClick={deleteFile}>
             delete file
+            <img
+              width="40"
+              height="auto"
+              src="https://www.shutterstock.com/image-vector/trash-can-icon-symbol-delete-260nw-1454137346.jpg"
+              alt="Delete"
+            />
+          </button>
+        ) : (
+          <button onClick={deleteFolder}>
+            delete folder
             <img
               width="40"
               height="auto"
@@ -97,8 +126,6 @@ export default function File(props) {
             size:{JSON.stringify(info.details.size)}
             <br />
             birthtime:{JSON.stringify(info.details.birthtime)}
-            <br />
-            mode:{JSON.stringify(info.details.mode)}
             <br />
             type:{info.type}
           </p>

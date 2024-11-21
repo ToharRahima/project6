@@ -68,18 +68,18 @@ body {
   color: #888;
 }
 /*files*/
-.container {
+.file {
   width: 400px;
   margin: 20px auto;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #7d95b6;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: #d4f0fe;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.container h2 {
+.file h2 {
   font-size: 30px;
   font-family: Arial, Helvetica, sans-serif;
   text-decoration: underline;
@@ -87,7 +87,7 @@ body {
   margin-bottom: 10px;
 }
 
-.container input {
+.file input {
   width: 90%;
   padding: 8px;
   margin-bottom: 10px;
@@ -95,13 +95,13 @@ body {
   border-radius: 5px;
 }
 
-.container p {
+.file p {
   font-size: 14px;
   color: #555;
   text-align: left;
 }
 
-.container button {
+.file button {
   margin: 5px;
   padding: 10px 15px;
   border: none;
@@ -110,11 +110,62 @@ body {
   cursor: pointer;
 }
 
-.container button:hover {
+.file button:hover {
   background-color: #e0e0e0;
 }
 
-.container img {
+.file img {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+.folder {
+  width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #de8761;
+  border-radius: 10px;
+  background-color: #fbe4c7;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.folder h2 {
+  font-size: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: underline;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.folder input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.folder p {
+  font-size: 14px;
+  color: #555;
+  text-align: left;
+}
+
+.folder button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.folder button:hover {
+  background-color: #e0e0e0;
+}
+
+.folder img {
   display: inline-block;
   vertical-align: middle;
   margin: 0;
