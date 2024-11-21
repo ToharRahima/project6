@@ -63,15 +63,17 @@ router.delete("/users/:name", function (req, res, next) {
 router.get("/users/:name/:file", function (req, res, next) {
   const name = req.params.name;
   const file = req.params.file;
+  console.log("the data wiil be sent next:");
+
   fs.readFile(`${pathFolder}/${name}/${file}`, "utf8", (err, data) => {
     if (err) {
       console.error(err);
       return;
     }
     console.log(data);
-    res.status(200).send(JSON.stringify(data));
+    res.status(200).send(JSON.stringify(data)).end();
   });
-});
+})
 
 //rename file
 router.patch("/users/:name", function (req, res, next) {

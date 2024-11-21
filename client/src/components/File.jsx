@@ -1,9 +1,11 @@
 import React from "react";
 import {useState} from "react"
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 //TO DO:
 export default function File(props) {
+  const navigate=useNavigate()
   const params = useParams(); 
   function deleteFile(){
     fetch(`http://localhost:3000/users/${params.username}`, {
@@ -51,6 +53,10 @@ export default function File(props) {
     };
     getInfo();
   }, [showInfo]);
+
+  function showContent(filename){
+    navigate(`${filename}`)
+  }
   return (
     <>
       <h1>{props.name}</h1>
@@ -58,6 +64,7 @@ export default function File(props) {
       <button onClick={() => setshowInfo((prev) => !prev)}>
         {showInfo ? "hide info" : "show info"}
       </button>
+      <button onClick={()=>showContent(props.name)}>show content</button>
     </>
   );
 }
