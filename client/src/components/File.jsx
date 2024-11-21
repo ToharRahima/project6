@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 export default function File(props) {
   const [showInfo, setshowInfo] = useState(false);
   const [info, setInfo] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [newname, setNewname] = useState("");
   let username = JSON.parse(localStorage.getItem("currentUser"));
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function File(props) {
           throw Error("ERROR!");
         } else {
           const data = await res.json();
-          console.log("data file: ", data);
+          setInfo(data);
         }
       } catch (err) {
         console.log("err: ", err);
@@ -28,12 +30,40 @@ export default function File(props) {
     };
     getInfo();
   }, [showInfo]);
+
   return (
     <>
-      <h1>{props.name}</h1>
+      {edit ? (
+        <input
+          value={newname || props.name}
+          type="text"
+          onChange={(e) => setNewname(e.target.value)}
+        />
+      ) : (
+        <h1>{props.name}</h1>
+      )}
       <button onClick={() => setshowInfo((prev) => !prev)}>
         {showInfo ? "hide info" : "show info"}
       </button>
+      {showInfo && (
+        <p>
+          <strong>details:</strong>
+          <br />
+          size:{JSON.stringify(info.size)}
+          <br />
+          birthtime:{JSON.stringify(info.birthtime)}
+          <br />
+          mode:{JSON.stringify(info.mode)}
+          <br />
+        </p>
+      )}
+      {edit ? (
+        <button onClick={() => props.rename(props.name, newname, setEdit)}>
+          save
+        </button>
+      ) : (
+        <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+      )}
     </>
   );
 }

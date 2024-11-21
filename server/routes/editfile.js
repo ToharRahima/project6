@@ -74,27 +74,26 @@ router.get("/users/:name/:file", function (req, res, next) {
 });
 
 //rename file
-router.patch("/users/:name", function (req, res, next) {
+router.patch("/users/:name/:filename", function (req, res, next) {
   const name = req.params.name;
-  const oldname = req.body.oldname;
+  const oldname = req.params.filename;
   const newname = req.body.newname;
-  fs.readdir(`${pathFolder}/${name}`, (err, files) => {
-    const samefile = files.filter((file) => (file = newname));
-    if (samefile.length !== 0) {
-      res
-        .status(404)
-        .send(JSON.stringify("there is another file with this name..."));
-    } else {
-      fs.rename(
-        `${pathFolder}/${name}/${oldname}`,
-        `${pathFolder}/${name}/${newname}`,
-        function (err) {
-          if (err) console.log("ERROR: " + err);
-          console.log("renamed!");
-        }
-      );
-    }
-  });
+  const files = fs.readdirSync(`${pathFolder}/${name}`);
+  if (files.includes(newname)) {
+    return res
+      .status(400)
+      .send(JSON.stringify("there is another file with this name..."));
+  } else {
+    fs.renameSync(
+      `${pathFolder}/${name}/${oldname}`,
+      `${pathFolder}/${name}/${newname}`
+      // function (err) {
+      //   if (err) console.log("ERROR: " + err);
+      //   res.status(500).send("An error occurred");
+      // }
+    );
+    res.send("file updated");
+  }
 });
 
 //more info about file
