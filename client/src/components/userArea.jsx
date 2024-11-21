@@ -3,6 +3,7 @@ import File from "./File";
 export default function UserArea(props) {
   const [folderContent, setFolderContent] = useState([]);
   const [newFile, setNewFile] = useState("");
+  const [newFolder, setNewFolder] = useState("");
 
   let username = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -43,6 +44,22 @@ export default function UserArea(props) {
     }
   };
 
+  const addFolder = async () => {
+    if (newFolder) {
+      await fetch(`http://localhost:8080/addfolder/${username}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ newfolder: newFolder }),
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error("somthing went wrong");
+        } else {
+          setFolderContent((prev) => [...prev, newFolder]);
+        }
+      });
+    }
+  };
+
   const rename = async (name, newname, setEdit) => {
     const res = await fetch(`http://localhost:8080/users/${username}/${name}`, {
       method: "PATCH",
@@ -68,10 +85,17 @@ export default function UserArea(props) {
     if (username) {
       return (
         <>
-          <div id="addFile">
-            <h2>add new file</h2>
-            <input onChange={(e) => setNewFile(e.target.value)} />
-            <button onClick={addFile}>+</button>
+          <div id="adds">
+            <div className="add">
+              <h2>add new file</h2>
+              <input onChange={(e) => setNewFile(e.target.value)} />
+              <button onClick={addFile}>+</button>
+            </div>
+            <div className="add">
+              <h2>add new folder</h2>
+              <input onChange={(e) => setNewFolder(e.target.value)} />
+              <button onClick={addFolder}>+</button>
+            </div>
           </div>
           {folderContent.map((item) => (
             <File

@@ -119,8 +119,11 @@ body {
   vertical-align: middle;
   margin: 0;
 }
+#adds {
+  display: flex;
+}
 
-#addFile {
+.add {
   width: 300px;
   margin: 30px auto;
   padding: 20px;
@@ -131,14 +134,14 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#addFile h2 {
+.add h2 {
   font-size: 30px;
   color: #600c55;
   margin-bottom: 15px;
   font-family: "Arial", sans-serif;
 }
 
-#addFile input {
+.add input {
   width: 80%;
   padding: 10px;
   margin: 10px 0;
@@ -148,7 +151,7 @@ body {
   background-color: #ffffff;
 }
 
-#addFile button {
+.add button {
   padding: 10px 15px;
   border: none;
   border-radius: 50%;

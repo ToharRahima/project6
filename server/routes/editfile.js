@@ -115,4 +115,30 @@ router.get("/users/:name/:file/info", function (req, res, next) {
   });
 });
 
+//add folder
+router.post("/addfolder/:name", function (req, res) {
+  try {
+    const name = req.params.name;
+    const newfolder = req.body.newfolder;
+    const files = fs.readdirSync(`${pathFolder}/${name}`);
+
+    if (files.includes(newfolder)) {
+      return res.status(404).send("there is another file with this name...");
+    }
+    fs.mkdir(path.join(`${pathFolder}/${name}`, newfolder), (err) => {
+      if (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .send("An error occurred while creating the folder.");
+      }
+      res.status(200).send("Folder added successfully!");
+      console.log("Directory created successfully!");
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("An error occurred");
+  }
+});
+
 module.exports = router;

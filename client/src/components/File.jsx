@@ -72,20 +72,24 @@ export default function File(props) {
         ) : (
           <h2>{props.name}</h2>
         )}
-
-        <button onClick={deleteFile}>
-          {" "}
-          <img
-            width="40"
-            height="auto"
-            src="https://www.shutterstock.com/image-vector/trash-can-icon-symbol-delete-260nw-1454137346.jpg"
-            alt="Delete"
-          />
-        </button>
+        {info.type === "file" && (
+          <button onClick={deleteFile}>
+            delete file
+            <img
+              width="40"
+              height="auto"
+              src="https://www.shutterstock.com/image-vector/trash-can-icon-symbol-delete-260nw-1454137346.jpg"
+              alt="Delete"
+            />
+          </button>
+        )}
         <button onClick={() => setshowInfo((prev) => !prev)}>
           {showInfo ? "hide info" : "show info "}
         </button>
-        <button onClick={() => showContent(props.name)}>show content</button>
+
+        {info.type === "file" && (
+          <button onClick={() => showContent(props.name)}>show content</button>
+        )}
         {showInfo && (
           <p>
             <strong>details:</strong>
