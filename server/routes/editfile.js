@@ -7,10 +7,13 @@ const fs = require("fs");
 // display files
 router.get("/users/:name/display", function (req, res, next) {
   const name = req.params.name;
+  console.log("name: ", name);
   fs.readdir(`${pathFolder}/${name}`, (err, files) => {
+    console.log("`${pathFolder}/${name}`: ", `${pathFolder}/${name}`);
     if (err) {
       res.status(500).send(JSON.stringify(err));
     }
+    console.log("files: ", files);
     files.forEach((file) => {
       console.log(file);
     });
@@ -91,13 +94,15 @@ router.delete("/users/:name", function (req, res, next) {
 router.get("/users/:name/:file", function (req, res, next) {
   const name = req.params.name;
   const file = req.params.file;
+  console.log("the data wiil be sent next:");
+
   fs.readFile(`${pathFolder}/${name}/${file}`, "utf8", (err, data) => {
     if (err) {
       console.error(err);
       return;
     }
     console.log(data);
-    res.status(200).send(JSON.stringify(data));
+    res.status(200).send(JSON.stringify(data)).end();
   });
 });
 

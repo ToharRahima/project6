@@ -13,7 +13,7 @@ export default function UserArea(props) {
       }
       try {
         const res = await fetch(
-          `http://localhost:8080/files/${username}/display`
+          `http://localhost:8080/users/${username}/display`
         );
         if (!res.ok) {
           throw Error("ERROR!");

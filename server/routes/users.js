@@ -9,7 +9,6 @@ const options = {
 
 /* GET users listing. */
 router.post("/login", function (req, res, next) {
-  console.log("users: ", users);
   const username = req.body.username;
   const password = req.body.password;
 

@@ -1,8 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-
+import { Navigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+//TO DO:
 export default function File(props) {
+  const navigate = useNavigate();
+  console.log(props);
   const [showInfo, setshowInfo] = useState(false);
   const [info, setInfo] = useState("");
   const [edit, setEdit] = useState(false);
@@ -53,6 +57,9 @@ export default function File(props) {
     getInfo();
   }, [showInfo]);
 
+  function showContent(filename) {
+    navigate(`${filename}`);
+  }
   return (
     <>
       {edit ? (
@@ -77,6 +84,7 @@ export default function File(props) {
       <button onClick={() => setshowInfo((prev) => !prev)}>
         {showInfo ? "hide info" : "show info "}
       </button>
+      <button onClick={() => showContent(props.name)}>show content</button>
       {showInfo && (
         <p>
           <strong>details:</strong>
@@ -90,7 +98,9 @@ export default function File(props) {
         </p>
       )}
       {edit ? (
-        <button onClick={() => props.rename(props.name, newname, setEdit)}>
+        <button
+          onClick={async () => await props.rename(props.name, newname, setEdit)}
+        >
           save
         </button>
       ) : (

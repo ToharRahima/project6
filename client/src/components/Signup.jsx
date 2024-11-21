@@ -14,7 +14,7 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/users/signup", {
+    fetch("http://localhost:8080/register/signup", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(inputs),

@@ -15,6 +15,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", editFileRoute);
-app.use("/users", usersRouter);
+app.use("/register", usersRouter);
 
 module.exports = app;

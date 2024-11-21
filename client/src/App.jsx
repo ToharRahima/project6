@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import UserArea from "./components/userArea";
+import FileContent from "./components/FileContent";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/:username" element={<UserArea />} />
           <Route path="*" element={<h1>page is not found</h1>} />
+          <Route path="/:username/:file" element={<FileContent/>}/>
         </Routes>
       </Router>
     </>

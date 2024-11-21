@@ -15,7 +15,7 @@ export default function Login(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/users/login", {
+    fetch("http://localhost:8080/register/login", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(inputs),
