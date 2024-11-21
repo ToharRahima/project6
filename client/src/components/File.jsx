@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//TO DO:
+
 export default function File(props) {
   const navigate = useNavigate();
   console.log(props);
@@ -62,57 +62,62 @@ export default function File(props) {
   }
   return (
     <>
-      {edit ? (
-        <input
-          value={newname || props.name}
-          type="text"
-          onChange={(e) => setNewname(e.target.value)}
-        />
-      ) : (
-        <h2>{props.name}</h2>
-      )}
+      <div className="container">
+        {edit ? (
+          <input
+            value={newname || props.name}
+            type="text"
+            onChange={(e) => setNewname(e.target.value)}
+          />
+        ) : (
+          <h2>{props.name}</h2>
+        )}
 
-      <button onClick={deleteFile}>
-        {" "}
-        <img
-          width="40"
-          height="auto"
-          src="https://www.shutterstock.com/image-vector/trash-can-icon-symbol-delete-260nw-1454137346.jpg"
-          alt="Delete"
-        />
-      </button>
-      <button onClick={() => setshowInfo((prev) => !prev)}>
-        {showInfo ? "hide info" : "show info "}
-      </button>
-      <button onClick={() => showContent(props.name)}>show content</button>
-      {showInfo && (
-        <p>
-          <strong>details:</strong>
-          <br />
-          size:{JSON.stringify(info.size)}
-          <br />
-          birthtime:{JSON.stringify(info.birthtime)}
-          <br />
-          mode:{JSON.stringify(info.mode)}
-          <br />
-        </p>
-      )}
-      {edit ? (
-        <button
-          onClick={async () => await props.rename(props.name, newname, setEdit)}
-        >
-          save
-        </button>
-      ) : (
-        <button onClick={() => setEdit((prev) => !prev)}>
+        <button onClick={deleteFile}>
+          {" "}
           <img
             width="40"
             height="auto"
-            src="https://logowik.com/content/uploads/images/888_edit.jpg"
-            alt="Edit"
+            src="https://www.shutterstock.com/image-vector/trash-can-icon-symbol-delete-260nw-1454137346.jpg"
+            alt="Delete"
           />
         </button>
-      )}
+        <button onClick={() => setshowInfo((prev) => !prev)}>
+          {showInfo ? "hide info" : "show info "}
+        </button>
+        <button onClick={() => showContent(props.name)}>show content</button>
+        {showInfo && (
+          <p>
+            <strong>details:</strong>
+            <br />
+            size:{JSON.stringify(info.size)}
+            <br />
+            birthtime:{JSON.stringify(info.birthtime)}
+            <br />
+            mode:{JSON.stringify(info.mode)}
+            <br />
+          </p>
+        )}
+        {edit ? (
+          <button
+            onClick={async () =>
+              await props.rename(props.name, newname, setEdit)
+            }
+          >
+            save
+          </button>
+        ) : (
+          <button onClick={() => setEdit((prev) => !prev)}>
+            edit
+            <img
+              width="40"
+              height="auto"
+              src="https://logowik.com/content/uploads/images/888_edit.jpg"
+              alt="Edit"
+            />
+          </button>
+        )}
+      </div>
     </>
   );
 }

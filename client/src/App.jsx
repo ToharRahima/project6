@@ -11,13 +11,16 @@ import FileContent from "./components/FileContent";
 function App() {
   return (
     <>
+      <em>
+        <h1>Rotem and Tohar's project:</h1>
+      </em>
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/:username" element={<UserArea />} />
           <Route path="*" element={<h1>page is not found</h1>} />
-          <Route path="/:username/:file" element={<FileContent/>}/>
+          <Route path="/:username/:file" element={<FileContent />} />
         </Routes>
       </Router>
     </>

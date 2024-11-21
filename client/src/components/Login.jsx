@@ -22,31 +22,33 @@ export default function Login(props) {
     })
       .then((res) => {
         if (!res.ok) {
-          console.log("in Login");
+          alert("Login failed!");
           throw new Error("Login failed!");
         }
-        return res.json(); // Parse the JSON response
+        return res.json();
       })
       .then((data) => {
         console.log("data: ", data);
         if (data) {
           localStorage.setItem("currentUser", JSON.stringify(data));
-          navigate(`/${data}`); // Navigate to the username's page
+          navigate(`/${data}`);
         }
       });
   };
 
   return (
     <>
-      <h1>log in:</h1>
-      <form>
-        <label htmlFor="username">username</label>
-        <input onChange={handleChange} type="text" name="username" />
-        <label htmlFor="password">password</label>
-        <input onChange={handleChange} type="text" name="password" />
-        <input type="submit" value="submit" onClick={handleSubmit} />
-      </form>
-      <Link to="/signup">signup</Link>
+      <div className="register">
+        <h1>log in:</h1>
+        <form>
+          <label htmlFor="username">username</label>
+          <input onChange={handleChange} type="text" name="username" />
+          <label htmlFor="password">password</label>
+          <input onChange={handleChange} type="text" name="password" />
+          <input type="submit" value="submit" onClick={handleSubmit} />
+        </form>
+        <Link to="/signup">signup</Link>
+      </div>
     </>
   );
 }

@@ -21,30 +21,33 @@ export default function Signup() {
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Login failed!");
+          alert("signup failed!");
+          throw new Error("signup failed!");
         }
-        return res.json(); // Parse the JSON response
+        return res.json();
       })
       .then((data) => {
         console.log("data: ", data);
         if (data) {
           localStorage.setItem("currentUser", JSON.stringify(data));
-          navigate(`/${data}`); // Navigate to the username's page
+          navigate(`/${data}`);
         }
       });
   };
 
   return (
     <>
-      <h1>sign up:</h1>
-      <form>
-        <label htmlFor="username">username</label>
-        <input onChange={handleChange} type="text" name="username" />
-        <label htmlFor="password">password</label>
-        <input onChange={handleChange} type="text" name="password" />
-        <input type="submit" value="submit" onClick={handleSubmit} />
-      </form>
-      <Link to="/">login</Link>
+      <div className="register">
+        <h1>sign up:</h1>
+        <form>
+          <label htmlFor="username">username</label>
+          <input onChange={handleChange} type="text" name="username" />
+          <label htmlFor="password">password</label>
+          <input onChange={handleChange} type="text" name="password" />
+          <input type="submit" value="submit" onClick={handleSubmit} />
+        </form>
+        <Link to="/">login</Link>
+      </div>
     </>
   );
 }
