@@ -54,8 +54,8 @@ router.delete("/users/:name", function (req, res, next) {
   const filename = req.body.filename;
   console.log("filename: ", filename);
   fs.unlink(`${pathFolder}/${name}/${filename}`, function (err) {
-    if (err) res.status(404).send(JSON.stringify(err));
-    console.log("deleted");
+    if (err) res.status(404).send(JSON.stringify(err)).end();
+    res.status(200).send(JSON.stringify(filename)).end();
   });
 });
 
@@ -87,10 +87,6 @@ router.patch("/users/:name/:filename", function (req, res, next) {
     fs.renameSync(
       `${pathFolder}/${name}/${oldname}`,
       `${pathFolder}/${name}/${newname}`
-      // function (err) {
-      //   if (err) console.log("ERROR: " + err);
-      //   res.status(500).send("An error occurred");
-      // }
     );
     res.send("file updated");
   }

@@ -1,11 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
+//TO DO:
 export default function File(props) {
+  console.log(props);
   const [showInfo, setshowInfo] = useState(false);
   const [info, setInfo] = useState("");
   const [edit, setEdit] = useState(false);
   const [newname, setNewname] = useState("");
   let username = JSON.parse(localStorage.getItem("currentUser"));
+  function deleteFile() {
+    fetch(`http://localhost:3000/users/${username}`, {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify({ filename: props.name }),
+    })
+      .then((res) => {
+        console.log(res);
+        if (!res.ok) {
+          throw new Error("couldnt delete");
+        }
+        return res.json(); // Parse the JSON response
+      })
+      .then(
+        props.setFolderContent((prev) =>
+          prev.filter((file) => file !== props.name)
+        )
+      );
+    console.log("setFolderContent: ", setFolderContent);
+  }
 
   useEffect(() => {
     const getInfo = async () => {
@@ -42,6 +66,8 @@ export default function File(props) {
       ) : (
         <h1>{props.name}</h1>
       )}
+
+      <button onClick={deleteFile}>delete file</button>
       <button onClick={() => setshowInfo((prev) => !prev)}>
         {showInfo ? "hide info" : "show info"}
       </button>
