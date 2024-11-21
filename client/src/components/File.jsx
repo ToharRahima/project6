@@ -32,24 +32,47 @@ export default function File(props) {
         )
       );
   }
+  //   function deleteFolder() {
+  //     fetch(`http://localhost:8080/folder/${username}`, {
+  //       method: "DELETE",
+  //       headers: { "Content-type": "application/json" },
+  //       body: JSON.stringify({ foldername: props.name }),
+  //     })
+  //       .then((res) => {
+  //         console.log(res);
+  //         if (!res.ok) {
+  //           throw new Error("couldnt delete");
+  //         }
+  //         return res.json();
+  //       })
+  //       .then(
+  //         props.setFolderContent((prev) =>
+  //           prev.filter((file) => file !== props.name)
+  //         )
+  //       );
+  //   }
   function deleteFolder() {
     fetch(`http://localhost:8080/folder/${username}`, {
       method: "DELETE",
-      headers: { "Content-type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ foldername: props.name }),
     })
       .then((res) => {
-        console.log(res);
+        console.log("Server Response:", res);
+
         if (!res.ok) {
-          throw new Error("couldnt delete");
+          throw new Error("Couldn't delete folder");
+        } else {
+          props.setFolderContent((prev) =>
+            prev.filter((file) => file !== props.name)
+          );
+
+          console.log("Folder removed from UI.");
         }
-        return res.json();
       })
-      .then(
-        props.setFolderContent((prev) =>
-          prev.filter((file) => file !== props.name)
-        )
-      );
+      .catch((error) => {
+        console.error("Error deleting folder:", error);
+      });
   }
 
   useEffect(() => {
