@@ -21,38 +21,6 @@ router.get("/users/:name/display", function (req, res, next) {
   });
 });
 
-// router.get("/files/:name", async function (req, res, next) {
-//   console.log("hello");
-//   const name = req.params.name;
-//   const files = await fs.promises.readdir(
-//     `${pathFolder}/${name}`,
-//     async (err) => {
-//       if (err) {
-//         console.log("hellssasdafwfs");
-//         next();
-//         return res.status(500).send(JSON.stringify(err));
-//       }
-//     }
-//   );
-//   const result = await Promise.all(
-//     files.map(async (file) => {
-//       const filePath = `${pathFolder}/${name}/${file}`;
-//       const filestats = await fs.promises.stat(filePath, (err) => {
-//         if (err) {
-//           return res.status(500).send(JSON.stringify(err));
-//         }
-//       });
-//       return {
-//         name: file,
-//         type: filestats.isDirectory() ? "directory" : "file",
-//       };
-//     })
-//   );
-//   console.log(result);
-//   res.status(200).send(JSON.stringify(result));
-//   next();
-// });
-
 //create file
 
 router.post("/users/:name", function (req, res) {
@@ -138,8 +106,12 @@ router.get("/users/:name/:file/info", function (req, res, next) {
     if (err) {
       console.error("Err in get info ", err);
     }
-    console.log("stats: ", stats);
-    res.status(200).send(JSON.stringify(stats));
+    res.status(200).send(
+      JSON.stringify({
+        details: stats,
+        type: stats.isFile() ? "file" : "folder",
+      })
+    );
   });
 });
 

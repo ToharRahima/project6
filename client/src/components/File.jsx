@@ -90,12 +90,13 @@ export default function File(props) {
           <p>
             <strong>details:</strong>
             <br />
-            size:{JSON.stringify(info.size)}
+            size:{JSON.stringify(info.details.size)}
             <br />
-            birthtime:{JSON.stringify(info.birthtime)}
+            birthtime:{JSON.stringify(info.details.birthtime)}
             <br />
-            mode:{JSON.stringify(info.mode)}
+            mode:{JSON.stringify(info.details.mode)}
             <br />
+            type:{info.type}
           </p>
         )}
         {edit ? (
