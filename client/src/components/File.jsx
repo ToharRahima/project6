@@ -2,16 +2,15 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
-//TO DO:
 export default function File(props) {
-  console.log(props);
   const [showInfo, setshowInfo] = useState(false);
   const [info, setInfo] = useState("");
   const [edit, setEdit] = useState(false);
   const [newname, setNewname] = useState("");
   let username = JSON.parse(localStorage.getItem("currentUser"));
+
   function deleteFile() {
-    fetch(`http://localhost:3000/users/${username}`, {
+    fetch(`http://localhost:8080/users/${username}`, {
       method: "DELETE",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ filename: props.name }),
@@ -21,14 +20,13 @@ export default function File(props) {
         if (!res.ok) {
           throw new Error("couldnt delete");
         }
-        return res.json(); // Parse the JSON response
+        return res.json();
       })
       .then(
         props.setFolderContent((prev) =>
           prev.filter((file) => file !== props.name)
         )
       );
-    console.log("setFolderContent: ", setFolderContent);
   }
 
   useEffect(() => {
@@ -39,7 +37,7 @@ export default function File(props) {
       console.log("username: ", username);
       try {
         const res = await fetch(
-          `http://localhost:3000/users/${username}/${props.name}/info`
+          `http://localhost:8080/users/${username}/${props.name}/info`
         );
         console.log("res: ", res);
         if (!res.ok) {
@@ -64,12 +62,20 @@ export default function File(props) {
           onChange={(e) => setNewname(e.target.value)}
         />
       ) : (
-        <h1>{props.name}</h1>
+        <h2>{props.name}</h2>
       )}
 
-      <button onClick={deleteFile}>delete file</button>
+      <button onClick={deleteFile}>
+        {" "}
+        <img
+          width="40"
+          height="auto"
+          src="https://www.shutterstock.com/image-vector/trash-can-icon-symbol-delete-260nw-1454137346.jpg"
+          alt="Delete"
+        />
+      </button>
       <button onClick={() => setshowInfo((prev) => !prev)}>
-        {showInfo ? "hide info" : "show info"}
+        {showInfo ? "hide info" : "show info "}
       </button>
       {showInfo && (
         <p>
@@ -88,7 +94,14 @@ export default function File(props) {
           save
         </button>
       ) : (
-        <button onClick={() => setEdit((prev) => !prev)}>edit</button>
+        <button onClick={() => setEdit((prev) => !prev)}>
+          <img
+            width="40"
+            height="auto"
+            src="https://logowik.com/content/uploads/images/888_edit.jpg"
+            alt="Edit"
+          />
+        </button>
       )}
     </>
   );

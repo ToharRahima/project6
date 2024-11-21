@@ -4,7 +4,6 @@ export default function UserArea(props) {
   const [folderContent, setFolderContent] = useState([]);
   const [newFile, setNewFile] = useState("");
 
-  // TODO: deal with cases when there is no currentUser
   let username = JSON.parse(localStorage.getItem("currentUser"));
 
   useEffect(() => {
@@ -14,7 +13,7 @@ export default function UserArea(props) {
       }
       try {
         const res = await fetch(
-          `http://localhost:3000/users/${username}/display`
+          `http://localhost:8080/files/${username}/display`
         );
         if (!res.ok) {
           throw Error("ERROR!");
@@ -30,7 +29,7 @@ export default function UserArea(props) {
 
   const addFile = async () => {
     if (newFile) {
-      await fetch(`http://localhost:3000/users/${username}`, {
+      await fetch(`http://localhost:8080/users/${username}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ filename: newFile }),
@@ -45,7 +44,7 @@ export default function UserArea(props) {
   };
 
   const rename = async (name, newname, setEdit) => {
-    const res = await fetch(`http://localhost:3000/users/${username}/${name}`, {
+    const res = await fetch(`http://localhost:8080/users/${username}/${name}`, {
       method: "PATCH",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ newname: newname }),

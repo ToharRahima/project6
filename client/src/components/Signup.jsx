@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 export default function Signup() {
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/users/signup", {
+    fetch("http://localhost:8080/users/signup", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(inputs),
@@ -43,6 +44,7 @@ export default function Signup() {
         <input onChange={handleChange} type="text" name="password" />
         <input type="submit" value="submit" onClick={handleSubmit} />
       </form>
+      <Link to="/">login</Link>
     </>
   );
 }

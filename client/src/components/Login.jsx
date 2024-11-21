@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 export default function Login(props) {
   const [inputs, setInputs] = useState({});
   const navigate = useNavigate();
-  console.log("in Login");
 
   const handleChange = (e) => {
     setInputs((prev) => {
@@ -16,13 +15,14 @@ export default function Login(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/users/login", {
+    fetch("http://localhost:8080/users/login", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(inputs),
     })
       .then((res) => {
         if (!res.ok) {
+          console.log("in Login");
           throw new Error("Login failed!");
         }
         return res.json(); // Parse the JSON response
@@ -38,7 +38,7 @@ export default function Login(props) {
 
   return (
     <>
-      <h1>login:</h1>
+      <h1>log in:</h1>
       <form>
         <label htmlFor="username">username</label>
         <input onChange={handleChange} type="text" name="username" />

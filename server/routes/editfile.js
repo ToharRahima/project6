@@ -1,14 +1,10 @@
 var express = require("express");
 var router = express.Router();
 const path = require("path");
-const users = require("../users.json");
 const pathFolder = path.join(__dirname, "..", "users");
 const fs = require("fs");
-const options = {
-  root: path.join(),
-};
 
-//display files
+// display files
 router.get("/users/:name/display", function (req, res, next) {
   const name = req.params.name;
   fs.readdir(`${pathFolder}/${name}`, (err, files) => {
@@ -21,6 +17,38 @@ router.get("/users/:name/display", function (req, res, next) {
     res.status(200).send(JSON.stringify(files));
   });
 });
+
+// router.get("/files/:name", async function (req, res, next) {
+//   console.log("hello");
+//   const name = req.params.name;
+//   const files = await fs.promises.readdir(
+//     `${pathFolder}/${name}`,
+//     async (err) => {
+//       if (err) {
+//         console.log("hellssasdafwfs");
+//         next();
+//         return res.status(500).send(JSON.stringify(err));
+//       }
+//     }
+//   );
+//   const result = await Promise.all(
+//     files.map(async (file) => {
+//       const filePath = `${pathFolder}/${name}/${file}`;
+//       const filestats = await fs.promises.stat(filePath, (err) => {
+//         if (err) {
+//           return res.status(500).send(JSON.stringify(err));
+//         }
+//       });
+//       return {
+//         name: file,
+//         type: filestats.isDirectory() ? "directory" : "file",
+//       };
+//     })
+//   );
+//   console.log(result);
+//   res.status(200).send(JSON.stringify(result));
+//   next();
+// });
 
 //create file
 
@@ -88,7 +116,7 @@ router.patch("/users/:name/:filename", function (req, res, next) {
       `${pathFolder}/${name}/${oldname}`,
       `${pathFolder}/${name}/${newname}`
     );
-    res.send("file updated");
+    res.status(200).send("file updated");
   }
 });
 
