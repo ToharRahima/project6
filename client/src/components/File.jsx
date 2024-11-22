@@ -32,25 +32,7 @@ export default function File(props) {
         )
       );
   }
-  //   function deleteFolder() {
-  //     fetch(`http://localhost:8080/folder/${username}`, {
-  //       method: "DELETE",
-  //       headers: { "Content-type": "application/json" },
-  //       body: JSON.stringify({ foldername: props.name }),
-  //     })
-  //       .then((res) => {
-  //         console.log(res);
-  //         if (!res.ok) {
-  //           throw new Error("couldnt delete");
-  //         }
-  //         return res.json();
-  //       })
-  //       .then(
-  //         props.setFolderContent((prev) =>
-  //           prev.filter((file) => file !== props.name)
-  //         )
-  //       );
-  //   }
+
   function deleteFolder() {
     fetch(`http://localhost:8080/folder/${username}`, {
       method: "DELETE",
@@ -58,16 +40,13 @@ export default function File(props) {
       body: JSON.stringify({ foldername: props.name }),
     })
       .then((res) => {
-        console.log("Server Response:", res);
-
         if (!res.ok) {
-          throw new Error("Couldn't delete folder");
+          throw new Error("Can't delete folder");
         } else {
           props.setFolderContent((prev) =>
             prev.filter((file) => file !== props.name)
           );
-
-          console.log("Folder removed from UI.");
+          console.log("Folder removed .");
         }
       })
       .catch((error) => {
@@ -102,6 +81,7 @@ export default function File(props) {
   function showContent(filename) {
     navigate(`${filename}`);
   }
+
   return (
     <>
       <div className={info.type === "file" ? "file" : "folder"}>
@@ -139,9 +119,10 @@ export default function File(props) {
           {showInfo ? "hide info" : "show info "}
         </button>
 
-        {info.type === "file" && (
-          <button onClick={() => showContent(props.name)}>show content</button>
-        )}
+        <button onClick={() => showContent(props.name)}>
+          {info.type === "file" ? "show content" : "show files"}
+        </button>
+
         {showInfo && (
           <p>
             <strong>details:</strong>
@@ -163,7 +144,7 @@ export default function File(props) {
           </button>
         ) : (
           <button onClick={() => setEdit((prev) => !prev)}>
-            edit
+            rename
             <img
               width="40"
               height="auto"

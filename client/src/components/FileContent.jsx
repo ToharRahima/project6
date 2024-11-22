@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 export default function FileContent() {
   const [content, setContent] = useState("");
+  // const [files, setFiles] = useState([]);
   const { username, file } = useParams();
+
   useEffect(() => {
     fetch(`http://localhost:8080/users/${username}/${file}`)
       .then((res) => {
@@ -15,10 +17,11 @@ export default function FileContent() {
         setContent(data);
       });
   }, []);
+
   return (
     <>
-      <h1>{file}</h1>
-      <div>{content}</div>
+      <h1>{file}:</h1>
+      <h1>{content || "NO CONTENT!"}</h1>
     </>
   );
 }

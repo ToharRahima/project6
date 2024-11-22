@@ -67,6 +67,10 @@ body {
 .read-the-docs {
   color: #888;
 }
+#container {
+  display: flex;
+  flex-wrap: wrap;
+}
 /*files*/
 .file {
   width: 400px;
@@ -125,7 +129,7 @@ body {
   padding: 20px;
   border: 1px solid #de8761;
   border-radius: 10px;
-  background-color: #fbe4c7;
+  background-color: #ffd7a3;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
 }

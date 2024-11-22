@@ -20,6 +20,22 @@ router.get("/users/:name/display", function (req, res, next) {
     res.status(200).send(JSON.stringify(files));
   });
 });
+// //second folder:
+// router.get("/users/:name/:folder/display", function (req, res, next) {
+//   const name = req.params.name;
+//   const folder = req.params.folder;
+//   console.log("name: ", name);
+//   fs.readdir(`${pathFolder}/${name}/${folder}`, (err, files) => {
+//     if (err) {
+//       res.status(500).send(JSON.stringify(err));
+//     }
+//     console.log("files: ", files);
+//     files.forEach((file) => {
+//       console.log(file);
+//     });
+//     res.status(200).send(JSON.stringify(files));
+//   });
+// });
 
 //create file
 
@@ -59,18 +75,52 @@ router.delete("/users/:name", function (req, res, next) {
 });
 
 //show content
+// router.get("/users/:name/:file", function (req, res, next) {
+//   const name = req.params.name;
+//   const file = req.params.file;
+//   console.log("the data wiil be sent next:");
+//   fs.readFile(`${pathFolder}/${name}/${file}`, "utf8", (err, data) => {
+//     if (err) {
+//       console.error(err);
+//       return;
+//     }
+//     console.log(data);
+//     res.status(200).send(JSON.stringify(data)).end();
+//   });
+// });
+
 router.get("/users/:name/:file", function (req, res, next) {
   const name = req.params.name;
   const file = req.params.file;
-  console.log("the data wiil be sent next:");
 
-  fs.readFile(`${pathFolder}/${name}/${file}`, "utf8", (err, data) => {
+  fs.stat(`${pathFolder}/${name}/${file}`, (err, stats) => {
     if (err) {
       console.error(err);
+      res.status(404).send("File or directory not found").end();
       return;
     }
-    console.log(data);
-    res.status(200).send(JSON.stringify(data)).end();
+
+    if (stats.isDirectory()) {
+      fs.readdir(`${pathFolder}/${name}/${file}`, (err, files) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error reading directory").end();
+          return;
+        }
+        console.log("Directory contents:", files);
+        res.status(200).send(JSON.stringify(files)).end();
+      });
+    } else {
+      fs.readFile(`${pathFolder}/${name}/${file}`, "utf8", (err, data) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error reading file").end();
+          return;
+        }
+        console.log("File contents:", data);
+        res.status(200).send(JSON.stringify(data)).end();
+      });
+    }
   });
 });
 
